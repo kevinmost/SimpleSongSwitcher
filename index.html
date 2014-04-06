@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="res/ico/favicon.ico">
+
+    <title>Music Switcher</title>
+
+    <style>
+    html * {
+        font-family: sans-serif;
+    }
+    </style>
+
+    <!-- IE8 support JS -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Main body -->
+
+<h1> Simple two-song music switcher</h1>
+<h3>Instructions: Select your two songs using the below two file dialogs. Then press the spacebar or the large button to toggle between the two songs.</h3>
+
+<div>
+    <input id="audio_file_0" type="file" accept="audio/*">
+    <audio id="audio_player_0"> </audio>
+</div>
+<div>
+    <input id="audio_file_1" type="file" accept="audio/*">
+    <audio id="audio_player_1"> </audio>
+
+<div>
+    <a href="#" style="background-color:#3498db;-moz-border-radius:9px;-webkit-border-radius:9px;border-radius:9px;border:1px solid white;cursor:pointer;display:inline-block;color:#ffffff;font-size:17px;padding:23px 31px;text-decoration:none;text-shadow:0px 1px 0px #2f6627;
+" onclick="toggle()">Click here to switch songs</a>
+</div>
+
+</div>
+</body>
+
+<script>
+    window.currentPlaying = 1;
+
+    audio_file_0.onchange = function(){
+        var files = this.files;
+        var file = URL.createObjectURL(files[0]); 
+        audio_player_0.src = file; 
+    };
+
+    audio_file_1.onchange = function(){
+        var files = this.files;
+        var file = URL.createObjectURL(files[0]); 
+        audio_player_1.src = file; 
+    };
+
+    function spacebarToggle(e) {
+        if (e.keyCode == 32)
+            toggle();
+    }
+
+    function toggle() {
+        if (audio_player_0.src != "" && audio_player_1.src != "") {
+            console.log("TOGGLING");
+            if (window.currentPlaying == 1) {
+                window.currentPlaying = 0;
+                audio_player_0.currentTime = audio_player_1.currentTime;
+                audio_player_1.pause();
+                audio_player_0.play();
+            }
+            else {
+                window.currentPlaying = 1;
+                audio_player_1.currentTime = audio_player_0.currentTime;
+                audio_player_0.pause();
+                audio_player_1.play();
+            }
+        }
+    }
+
+    window.addEventListener("keydown", spacebarToggle, false);
+</script>
+
+</html>
